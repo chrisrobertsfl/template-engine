@@ -1,0 +1,8 @@
+          <<path>>:
+            <<method:lowercase>>
+              responses: {}
+              x-amazon-apigateway-integration:
+                uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:<<functionName>>/invocations'
+                passthroughBehavior: when_no_match
+                httpMethod: <<method:uppercase>>
+                type: aws_proxy

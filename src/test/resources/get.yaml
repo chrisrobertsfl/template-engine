@@ -1,0 +1,38 @@
+          /<<path>>:
+            <<method:lowercase>>:
+              responses: {}
+              x-amazon-apigateway-integration:
+                uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:<<function>>/invocations'
+                passthroughBehavior: when_no_match
+                httpMethod: <<method:uppercase>>
+                contentHandling: "CONVERT_TO_TEXT"
+                type: aws_proxy
+            options:
+              consumes:
+              - "application/json"
+              produces:
+              - "application/json"
+              responses:
+                '200':
+                  description: "200 response"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: "string"
+                    Access-Control-Allow-Methods:
+                      type: "string"
+                    Access-Control-Allow-Headers:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Methods: "'GET,POST,PUT,DELETE'"
+                      method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                    responseTemplates:
+                      application/json: "{}\n"
+                passthroughBehavior: "when_no_match"
+                requestTemplates:
+                  application/json: "{\n  \"statusCode\" : 200\n}\n"
+                type: "mock"

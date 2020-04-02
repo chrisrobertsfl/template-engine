@@ -1,0 +1,3 @@
+path=abc
+method=get
+function=this-is-my-function
